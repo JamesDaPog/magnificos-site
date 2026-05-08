@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* ── Custom font utilities ── */
+.font-display {
+  font-family: 'Fraunces', Georgia, serif;
+  /* opsz left on auto — browser scales optical size with font-size,
+     so small labels (18–22px) get text-optimised strokes while
+     large headlines (48–72px) get display-optimised rendering */
+}
+
+/* ── Global base ── */
+*, *::before, *::after {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Nunito', system-ui, sans-serif;
+  background: #faf8f6;
+  color: #1a1a1a;
+  overflow-x: hidden;
+}
+
+/* ── Smooth scrolling ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Each section fills the viewport — no snap, just full height */
+.snap-section {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.snap-end {
+  /* footer — natural height, no constraints */
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f0ede9; }
+::-webkit-scrollbar-thumb { background: #c41e3a; border-radius: 3px; }
+
+/* ── Selection color ── */
+::selection { background: #c41e3a; color: #fff; }
