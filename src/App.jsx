@@ -659,9 +659,11 @@ function AccordionCard({ cat, isOpen, onToggle, isFeatured, edge = "left" }) {
   const btnSize   = isFeatured ? 34 : 28;
   const btnFont   = isFeatured ? 20 : 16;
 
-  const edgeStyle = edge === "left"
-    ? { borderLeft:  `3px solid ${BRAND}`, borderRight: "none" }
-    : { borderRight: `3px solid ${BRAND}`, borderLeft:  "none" };
+  const edgeStyle = isOpen
+    ? edge === "left"
+      ? { borderLeft:  `3px solid ${BRAND}`, borderRight: "none" }
+      : { borderRight: `3px solid ${BRAND}`, borderLeft:  "none" }
+    : { borderLeft: "none", borderRight: "none" };
 
   return (
     <div style={edgeStyle} className="transition-colors duration-200">
