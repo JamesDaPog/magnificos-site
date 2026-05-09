@@ -15,7 +15,8 @@ import {
 const BRAND = "#c41e3a";   // refined crimson — deeper, less orange
 const CREAM = "#faf8f5";   // warm cream — matches body texture background
 const DARK  = "#1a1a1a";   // near-black with warmth
-const WARM  = "#5c4f47";   // warm brown-gray — replaces cold gray-500 in key spots
+const WARM  = "#5c4f47";   // warm brown-gray for body copy (8:1 contrast)
+const MUTED = "#6e6460";   // warm medium-gray for secondary text (5.3:1 — passes AA)
 
 // Asymmetric leaf — the signature shape replacing all rounded-full / rounded-2xl bubbles
 const LEAF     = "22px 4px 22px 4px";   // top-left top-right bottom-right bottom-left
@@ -267,8 +268,8 @@ function Reveal({ children, className = "" }) {
 function Label({ children }) {
   return (
     <motion.span variants={fadeUp}
-      className="inline-flex items-center gap-2 text-[11px] font-extrabold tracking-[0.2em] uppercase"
-      style={{ color: BRAND }}>
+      className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.18em] uppercase"
+      style={{ color: BRAND, fontFamily: "'Lora', Georgia, serif" }}>
       {/* dash + dot marker */}
       <span className="inline-flex items-center gap-1 flex-shrink-0">
         <span className="inline-block w-4 h-[2px]" style={{ background: BRAND }} />
@@ -350,9 +351,9 @@ function Nav() {
                   className={`px-3.5 py-2 text-[13px] rounded-lg transition-all ${
                     active
                       ? "font-semibold bg-black/5"
-                      : "font-medium text-gray-500 hover:text-gray-900 hover:bg-black/5"
+                      : "font-medium hover:bg-black/5"
                   }`}
-                  style={{ color: active ? BRAND : undefined }}>
+                  style={{ color: active ? BRAND : MUTED }}>
                   {label}
                 </Link>
               );
@@ -406,7 +407,8 @@ function Nav() {
             <div className="max-w-7xl mx-auto px-5 py-5 flex flex-col gap-1">
               {NAV_LINKS.map(({ label, path }) => (
                 <Link key={path} to={path}
-                  className="text-left px-3 py-3 text-[15px] font-medium text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-all">
+                  className="text-left px-3 py-3 text-[15px] font-medium rounded-lg hover:bg-gray-50 transition-all"
+                  style={{ color: DARK }}>
                   {label}
                 </Link>
               ))}
@@ -587,11 +589,13 @@ function Home() {
                       <Stars />
                       <span className="text-xs font-bold text-gray-800">4.9</span>
                       {/* Google "G" wordmark color dots */}
-                      <span className="text-[10px] font-semibold text-gray-400 group-hover:text-gray-600 transition-colors">
+                      <span className="text-[10px] font-semibold transition-colors"
+                        style={{ color: MUTED }}>
                         · Google
                       </span>
                     </div>
-                    <p className="text-[11px] text-gray-400 group-hover:text-gray-600 transition-colors">
+                    <p className="text-[11px] transition-colors"
+                      style={{ color: MUTED }}>
                       200+ reviews · See on Google Maps
                     </p>
                   </div>
@@ -613,14 +617,14 @@ function Home() {
                 className="absolute -bottom-4 -left-3 sm:-left-6 bg-white px-5 py-4"
                 style={{ borderRadius: LEAF, boxShadow: "0 2px 4px rgba(0,0,0,0.10)" }}>
                 <div className="font-display text-2xl font-black leading-none mb-0.5" style={{ color: BRAND, letterSpacing: "-0.02em" }}>44+</div>
-                <div className="text-[11px] font-medium" style={{ color: "#9a8c84" }}>Years of Tradition</div>
+                <div className="text-[11px] font-medium" style={{ color: MUTED }}>Years of Tradition</div>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55, duration: 0.32, ease }}
                 className="absolute -top-3 -right-3 sm:-right-6 bg-white px-5 py-4"
                 style={{ borderRadius: LEAFR, boxShadow: "0 2px 4px rgba(0,0,0,0.10)" }}>
                 <div className="font-display text-2xl font-black leading-none mb-0.5" style={{ color: BRAND, letterSpacing: "-0.02em" }}>30+</div>
-                <div className="text-[11px] font-medium" style={{ color: "#9a8c84" }}>Flavors Daily</div>
+                <div className="text-[11px] font-medium" style={{ color: MUTED }}>Flavors Daily</div>
               </motion.div>
               {/* Offset accent square — deliberate, not decorative noise */}
               <div className="absolute -z-10 -bottom-5 -right-5 w-32 h-32 border"
@@ -686,7 +690,7 @@ function MenuPage() {
                   <div className="flex-1 min-w-0">
                     <h3 className="font-display font-bold text-[20px]"
                       style={{ color: isOpen ? BRAND : DARK, letterSpacing: "-0.02em" }}>{name}</h3>
-                    <p className="text-[13px] text-gray-400 mt-0.5">{sub}</p>
+                    <p className="text-[13px] mt-0.5" style={{ color: MUTED }}>{sub}</p>
                   </div>
 
                   {/* +/− toggle — turns red when open */}
@@ -759,7 +763,7 @@ function MenuPage() {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-[13px] mb-5" style={{ color: "#9a8c84" }}>Availability varies by season. Call ahead — we're always happy to tell you what's fresh today.</p>
+          <p className="text-[13px] mb-5" style={{ color: MUTED }}>Availability varies by season. Call ahead — we're always happy to tell you what's fresh today.</p>
           <a href="tel:+17322389555"
             className="inline-flex items-center gap-2 text-[13px] font-semibold transition-colors"
             style={{ color: BRAND }}>
@@ -802,7 +806,7 @@ function AboutPage() {
                   </div>
                   <div>
                     <p className="text-[12px] font-semibold" style={{ color: DARK }}>Family-Owned & Operated</p>
-                    <p className="text-[11px] text-gray-400">East Brunswick, NJ since 1981</p>
+                    <p className="text-[11px]" style={{ color: MUTED }}>East Brunswick, NJ since 1981</p>
                   </div>
                 </div>
               </div>
@@ -826,7 +830,7 @@ function AboutPage() {
               {ABOUT_STATS.map(({ num, label }) => (
                 <div key={label} className="text-center py-6 px-5 bg-white" style={{ borderRadius: LEAF, borderTop: `3px solid ${BRAND}`, boxShadow: "0 2px 4px rgba(0,0,0,0.07)" }}>
                   <div className="font-display text-2xl font-black mb-1" style={{ color: BRAND, letterSpacing: "-0.02em" }}>{num}</div>
-                  <div className="text-[11px] text-gray-400 font-medium leading-tight">{label}</div>
+                  <div className="text-[11px] font-medium leading-tight" style={{ color: MUTED }}>{label}</div>
                 </div>
               ))}
             </motion.div>
@@ -855,7 +859,7 @@ function ReviewsPage() {
             <div className="inline-flex items-center gap-2">
               <Stars />
               <span className="text-[13px] font-semibold" style={{ color: DARK }}>4.9</span>
-              <span className="text-[13px]" style={{ color: "#9a8c84" }}>· 200+ Google Reviews</span>
+              <span className="text-[13px]" style={{ color: MUTED }}>· 200+ Google Reviews</span>
             </div>
             <p className="font-display text-[15px]" style={{ fontStyle: "italic", color: "#9a8c84" }}>
               Don't take our word for it.
@@ -887,7 +891,7 @@ function ReviewsPage() {
                   style={{ background: BRAND, borderRadius: ri % 2 === 0 ? LEAF : LEAFR }}>{r.avatar}</div>
                 <div>
                   <div className="text-[13px] font-semibold" style={{ color: DARK }}>{r.name}</div>
-                  <div className="text-[11px]" style={{ color: "#9a8c84" }}>{r.location}</div>
+                  <div className="text-[11px]" style={{ color: MUTED }}>{r.location}</div>
                 </div>
               </div>
             </motion.div>
@@ -922,24 +926,24 @@ function VisitPage() {
           <Reveal className="h-full">
             <motion.div variants={fadeUp} className="h-full rounded-2xl p-8 lg:p-10 flex flex-col gap-8" style={{ background: "white", boxShadow: "0 2px 4px rgba(0,0,0,0.07)" }}>
               <div>
-                <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-2">Address</p>
+                <p className="text-[10px] font-bold tracking-widest uppercase mb-2" style={{ color: MUTED }}>Address</p>
                 <p className="font-display text-xl font-bold leading-snug" style={{ color: DARK }}>
                   500 State Route 18<br />East Brunswick, NJ 08816
                 </p>
               </div>
               <div>
-                <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-2">Phone</p>
+                <p className="text-[10px] font-bold tracking-widest uppercase mb-2" style={{ color: MUTED }}>Phone</p>
                 <a href="tel:+17322389555" className="font-display text-xl font-bold transition-opacity hover:opacity-70" style={{ color: DARK }}>
                   (732) 238-9555
                 </a>
               </div>
               <div className="flex-1">
-                <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-4">Hours</p>
+                <p className="text-[10px] font-bold tracking-widest uppercase mb-4" style={{ color: MUTED }}>Hours</p>
                 <div className="flex flex-col gap-3">
                   {HOURS.map(({ day, time }) => (
                     <div key={day} className="flex items-center justify-between py-3 border-b last:border-b-0"
                       style={{ borderColor: "rgba(0,0,0,0.07)" }}>
-                      <span className="text-[13px] font-medium text-gray-500">{day}</span>
+                      <span className="text-[13px] font-medium" style={{ color: WARM }}>{day}</span>
                       <span className="text-[13px] font-bold" style={{ color: BRAND }}>{time}</span>
                     </div>
                   ))}

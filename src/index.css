@@ -15,7 +15,9 @@
 }
 
 body {
-  font-family: 'Nunito', system-ui, sans-serif;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.8;
   /* Warm cream with a barely-there linen weave — takes the digital edge off */
   background-color: #faf8f5;
   background-image:
