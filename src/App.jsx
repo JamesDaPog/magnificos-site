@@ -649,29 +649,23 @@ function Home() {
 }
 
 // ─────────────────────────────────────────────────
-// ACCORDION CARD — shared between featured row and 2×3 grid
+// ACCORDION CARD — flat (no individual border/radius — container handles that)
 // ─────────────────────────────────────────────────
 function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
   const { name, sub, desc, sections } = cat;
-  const pad    = isFeatured ? "28px 32px" : "20px 24px";
-  const padInner = isFeatured ? "28px 32px" : "20px 24px";
-  const titleSize = isFeatured ? "text-[22px]" : "text-[17px]";
-  const subSize   = isFeatured ? "text-[14px]" : "text-[12px]";
-  const btnSize   = isFeatured ? 36 : 30;
-  const btnFont   = isFeatured ? 22 : 18;
+  const pad       = isFeatured ? "24px 28px" : "18px 22px";
+  const titleSize = isFeatured ? "text-[21px]" : "text-[16px]";
+  const subSize   = isFeatured ? "text-[13px]" : "text-[12px]";
+  const btnSize   = isFeatured ? 34 : 28;
+  const btnFont   = isFeatured ? 20 : 16;
 
   return (
-    <div>
+    <div style={{ borderLeft: isOpen ? `3px solid ${BRAND}` : "3px solid transparent" }}
+      className="transition-colors duration-200">
       <button
         onClick={() => onToggle(name)}
-        className="w-full flex items-center justify-between gap-4 text-left transition-all duration-200 cursor-pointer"
-        style={{
-          padding: pad,
-          background: isOpen ? `${BRAND}07` : "white",
-          border: `1px solid ${isOpen ? BRAND : "#e5e7eb"}`,
-          borderRadius: isOpen ? LEAFR_TOP : LEAFR,
-          boxShadow: isOpen ? "none" : "0 2px 4px rgba(0,0,0,0.06)",
-        }}
+        className="w-full flex items-center justify-between gap-4 text-left transition-colors duration-200 cursor-pointer"
+        style={{ padding: pad, background: isOpen ? `${BRAND}06` : "white" }}
       >
         <div className="flex-1 min-w-0">
           <h3 className={`font-display font-bold ${titleSize}`}
@@ -681,12 +675,13 @@ function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
         <motion.div
           animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ duration: 0.22, ease }}
-          className="flex items-center justify-center border flex-shrink-0 font-bold leading-none transition-colors duration-200"
+          className="flex items-center justify-center flex-shrink-0 font-bold leading-none transition-colors duration-200"
           style={{
             width: btnSize, height: btnSize, fontSize: btnFont,
             borderRadius: LEAF,
-            borderColor: isOpen ? `${BRAND}50` : "#e5e7eb",
+            border: `1px solid ${isOpen ? BRAND : "#d1d5db"}`,
             color: isOpen ? BRAND : "#9ca3af",
+            flexShrink: 0,
           }}
         >
           +
@@ -701,8 +696,7 @@ function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 0.03, 0.26, 1] }}
             style={{ overflow: "hidden" }}>
-            <div className="bg-white border-x border-b"
-              style={{ padding: padInner, borderColor: BRAND, borderRadius: LEAFR_BOT }}>
+            <div style={{ padding: pad, background: `${BRAND}04` }}>
               <p className="text-[15px] leading-relaxed mb-6 max-w-xl" style={{ color: WARM }}>{desc}</p>
               <div className="flex flex-col gap-6">
                 {sections.map(({ label, flavors }) => (
@@ -717,10 +711,7 @@ function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
                       {flavors.map((f, fi) => (
                         <span key={f}
                           className="px-3.5 py-1.5 text-[12px] font-semibold bg-white text-gray-900 hover:bg-gray-900 hover:text-white transition-colors cursor-pointer select-none"
-                          style={{
-                            border: "1.5px solid #1a1a1a",
-                            borderRadius: fi % 2 === 0 ? LEAFR : LEAF,
-                          }}>
+                          style={{ border: "1.5px solid #1a1a1a", borderRadius: fi % 2 === 0 ? LEAFR : LEAF }}>
                           {f}
                         </span>
                       ))}
@@ -747,6 +738,9 @@ function MenuPage() {
 
   const featured = MENU_CATEGORIES.filter(c => FEATURED_NAMES.includes(c.name));
   const others   = MENU_CATEGORIES.filter(c => !FEATURED_NAMES.includes(c.name));
+  // Split others into left/right columns so each accordion expands independently
+  const col1 = others.filter((_, i) => i % 2 === 0);
+  const col2 = others.filter((_, i) => i % 2 !== 0);
 
   return (
     <PageWrapper>
@@ -772,20 +766,32 @@ function MenuPage() {
           </motion.a>
         </Reveal>
 
-        {/* ── Featured: Ice Cream + Toppings — 2 big cards side by side ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-          {featured.map(cat => (
-            <AccordionCard key={cat.name} cat={cat}
-              isOpen={openKey === cat.name} onToggle={toggle} isFeatured />
-          ))}
+        {/* ── Featured: Ice Cream + Toppings — 2 big, flush side by side ── */}
+        <div className="border border-gray-200 overflow-hidden mb-3" style={{ borderRadius: LEAFR }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+            {featured.map(cat => (
+              <AccordionCard key={cat.name} cat={cat}
+                isOpen={openKey === cat.name} onToggle={toggle} isFeatured />
+            ))}
+          </div>
         </div>
 
-        {/* ── Others: 2 × 3 grid ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {others.map(cat => (
-            <AccordionCard key={cat.name} cat={cat}
-              isOpen={openKey === cat.name} onToggle={toggle} />
-          ))}
+        {/* ── Others: 2 × 3 flush grid — two independent flex columns ── */}
+        <div className="border border-gray-200 overflow-hidden" style={{ borderRadius: LEAFR }}>
+          <div className="flex flex-col sm:flex-row sm:divide-x divide-gray-200">
+            <div className="flex-1 flex flex-col divide-y divide-gray-200">
+              {col1.map(cat => (
+                <AccordionCard key={cat.name} cat={cat}
+                  isOpen={openKey === cat.name} onToggle={toggle} />
+              ))}
+            </div>
+            <div className="flex-1 flex flex-col divide-y divide-gray-200 border-t sm:border-t-0 border-gray-200">
+              {col2.map(cat => (
+                <AccordionCard key={cat.name} cat={cat}
+                  isOpen={openKey === cat.name} onToggle={toggle} />
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="text-center mt-12">
