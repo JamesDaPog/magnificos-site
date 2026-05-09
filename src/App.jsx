@@ -103,6 +103,16 @@ const MENU_CATEGORIES = [
       { label: "Popular cake flavors", flavors: ["Vanilla","Chocolate","Oreo Cookie","Strawberry","Cake Batter","Pistachio","Butter Pecan","Coffee"] },
     ],
   },
+  {
+    name: "Toppings",
+    sub: "28 toppings to pile on",
+    desc: "Pile on as many as you want. We carry over 28 toppings — candy, crunch, nuts, fruit, and everything in between. Make it yours.",
+    sections: [
+      { label: "Candy & Fun",     flavors: ["Rainbow Sprinkles","Chocolate Sprinkles","M&Ms","Reese's Pieces","Peanut Butter Cups","Sour Worms","Sour Patch Kids","Swedish Fish","Gummi Bears","Maraschino Cherries"] },
+      { label: "Cookie & Brownie", flavors: ["Oreos","Chocolate Chips","Cookie Dough","Brownie Bites","Graham Crackers","Heath Bar","Chocolate Crunch","Waffle Cone Crunch"] },
+      { label: "Nuts & Extras",   flavors: ["Dry Walnuts","Toasted Almond Crunch","Pecans","Salted Almonds","Chopped Peanuts","Coconut","Toasted Coconut","Malt Powder","Whipped Cream","Nutella"] },
+    ],
+  },
 ];
 
 
@@ -639,17 +649,109 @@ function Home() {
 }
 
 // ─────────────────────────────────────────────────
+// ACCORDION CARD — shared between featured row and 2×3 grid
+// ─────────────────────────────────────────────────
+function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
+  const { name, sub, desc, sections } = cat;
+  const pad    = isFeatured ? "28px 32px" : "20px 24px";
+  const padInner = isFeatured ? "28px 32px" : "20px 24px";
+  const titleSize = isFeatured ? "text-[22px]" : "text-[17px]";
+  const subSize   = isFeatured ? "text-[14px]" : "text-[12px]";
+  const btnSize   = isFeatured ? 36 : 30;
+  const btnFont   = isFeatured ? 22 : 18;
+
+  return (
+    <div>
+      <button
+        onClick={() => onToggle(name)}
+        className="w-full flex items-center justify-between gap-4 text-left transition-all duration-200 cursor-pointer"
+        style={{
+          padding: pad,
+          background: isOpen ? `${BRAND}07` : "white",
+          border: `1px solid ${isOpen ? BRAND : "#e5e7eb"}`,
+          borderRadius: isOpen ? LEAFR_TOP : LEAFR,
+          boxShadow: isOpen ? "none" : "0 2px 4px rgba(0,0,0,0.06)",
+        }}
+      >
+        <div className="flex-1 min-w-0">
+          <h3 className={`font-display font-bold ${titleSize}`}
+            style={{ color: isOpen ? BRAND : DARK, letterSpacing: "-0.02em" }}>{name}</h3>
+          <p className={`mt-0.5 ${subSize}`} style={{ color: MUTED }}>{sub}</p>
+        </div>
+        <motion.div
+          animate={{ rotate: isOpen ? 45 : 0 }}
+          transition={{ duration: 0.22, ease }}
+          className="flex items-center justify-center border flex-shrink-0 font-bold leading-none transition-colors duration-200"
+          style={{
+            width: btnSize, height: btnSize, fontSize: btnFont,
+            borderRadius: LEAF,
+            borderColor: isOpen ? `${BRAND}50` : "#e5e7eb",
+            color: isOpen ? BRAND : "#9ca3af",
+          }}
+        >
+          +
+        </motion.div>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 0.03, 0.26, 1] }}
+            style={{ overflow: "hidden" }}>
+            <div className="bg-white border-x border-b"
+              style={{ padding: padInner, borderColor: BRAND, borderRadius: LEAFR_BOT }}>
+              <p className="text-[15px] leading-relaxed mb-6 max-w-xl" style={{ color: WARM }}>{desc}</p>
+              <div className="flex flex-col gap-6">
+                {sections.map(({ label, flavors }) => (
+                  <div key={label}>
+                    <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-3 flex items-center gap-2"
+                      style={{ color: BRAND }}>
+                      <span className="inline-block w-3 h-[2px]" style={{ background: BRAND }} />
+                      <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: BRAND }} />
+                      {label}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {flavors.map((f, fi) => (
+                        <span key={f}
+                          className="px-3.5 py-1.5 text-[12px] font-semibold bg-white text-gray-900 hover:bg-gray-900 hover:text-white transition-colors cursor-pointer select-none"
+                          style={{
+                            border: "1.5px solid #1a1a1a",
+                            borderRadius: fi % 2 === 0 ? LEAFR : LEAF,
+                          }}>
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────
 // PAGE: MENU (combined with flavors + podium)
 // ─────────────────────────────────────────────────
+const FEATURED_NAMES = ["Ice Cream", "Toppings"];
+
 function MenuPage() {
-  const [openIdx, setOpenIdx] = useState(null);
-  const toggle = (i) => setOpenIdx((prev) => (prev === i ? null : i));
+  const [openKey, setOpenKey] = useState(null);
+  const toggle = (key) => setOpenKey((prev) => (prev === key ? null : key));
+
+  const featured = MENU_CATEGORIES.filter(c => FEATURED_NAMES.includes(c.name));
+  const others   = MENU_CATEGORIES.filter(c => !FEATURED_NAMES.includes(c.name));
 
   return (
     <PageWrapper>
       <div className="max-w-4xl mx-auto px-5 sm:px-8 pt-28 pb-20">
 
-        {/* Podium */}
         <Podium />
 
         {/* Header */}
@@ -670,96 +772,20 @@ function MenuPage() {
           </motion.a>
         </Reveal>
 
-        {/* Accordion */}
-        <div className="flex flex-col gap-3">
-          {MENU_CATEGORIES.map(({ name, sub, desc, sections }, i) => {
-            const isOpen = openIdx === i;
-            return (
-              <div key={name}>
-                {/* Clickable header */}
-                <button
-                  onClick={() => toggle(i)}
-                  className="w-full flex items-center justify-between gap-4 p-6 sm:p-8 border text-left transition-all duration-200"
-                  style={{
-                    background: isOpen ? `${BRAND}07` : "white",
-                    borderColor: isOpen ? BRAND : "#e5e7eb",
-                    borderRadius: isOpen ? LEAFR_TOP : LEAFR,
-                    boxShadow: isOpen ? "none" : "0 2px 4px rgba(0,0,0,0.06)",
-                  }}
-                >
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-[20px]"
-                      style={{ color: isOpen ? BRAND : DARK, letterSpacing: "-0.02em" }}>{name}</h3>
-                    <p className="text-[13px] mt-0.5" style={{ color: MUTED }}>{sub}</p>
-                  </div>
+        {/* ── Featured: Ice Cream + Toppings — 2 big cards side by side ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+          {featured.map(cat => (
+            <AccordionCard key={cat.name} cat={cat}
+              isOpen={openKey === cat.name} onToggle={toggle} isFeatured />
+          ))}
+        </div>
 
-                  {/* +/− toggle — turns red when open */}
-                  <motion.div
-                    animate={{ rotate: isOpen ? 45 : 0 }}
-                    transition={{ duration: 0.22, ease }}
-                    className="w-8 h-8 flex items-center justify-center border flex-shrink-0 font-bold text-xl leading-none transition-colors duration-200"
-                    style={{
-                      borderRadius: LEAF,
-                      borderColor: isOpen ? `${BRAND}50` : "#e5e7eb",
-                      color: isOpen ? BRAND : "#9ca3af",
-                    }}
-                  >
-                    +
-                  </motion.div>
-                </button>
-
-                {/* Dropdown */}
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="content"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: [0.22, 0.03, 0.26, 1] }}
-                      style={{ overflow: "hidden" }}
-                    >
-                      <div
-                        className="bg-white border-x border-b px-6 sm:px-8 py-8"
-                        style={{
-                          borderColor: BRAND,
-                          borderRadius: LEAFR_BOT,
-                        }}
-                      >
-                        {/* Description */}
-                        <p className="text-[15px] leading-relaxed mb-6 max-w-xl" style={{ color: WARM }}>{desc}</p>
-
-                        {/* Flavor sections */}
-                        <div className="flex flex-col gap-6">
-                          {sections.map(({ label, flavors }) => (
-                            <div key={label}>
-                              <p className="text-[10px] font-extrabold tracking-[0.18em] uppercase mb-3 flex items-center gap-2"
-                                style={{ color: BRAND }}>
-                                <span className="inline-block w-3 h-[2px]" style={{ background: BRAND }} />
-                                <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: BRAND }} />
-                                {label}
-                              </p>
-                              <div className="flex flex-wrap gap-2">
-                                {flavors.map((f, fi) => (
-                                  <span
-                                    key={f}
-                                    className="px-3.5 py-1.5 text-[12px] font-semibold bg-gray-50 border border-gray-200 text-gray-700 hover:bg-red-50 hover:border-red-200 hover:text-red-700 transition-colors cursor-default select-none"
-                                    style={{ borderRadius: fi % 2 === 0 ? LEAFR : LEAF }}
-                                  >
-                                    {f}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+        {/* ── Others: 2 × 3 grid ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {others.map(cat => (
+            <AccordionCard key={cat.name} cat={cat}
+              isOpen={openKey === cat.name} onToggle={toggle} />
+          ))}
         </div>
 
         <div className="text-center mt-12">
