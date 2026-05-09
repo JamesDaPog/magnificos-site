@@ -16,7 +16,12 @@
 
 body {
   font-family: 'Nunito', system-ui, sans-serif;
-  background: #faf8f6;
+  /* Warm cream with a barely-there linen weave — takes the digital edge off */
+  background-color: #faf8f5;
+  background-image:
+    repeating-linear-gradient(0deg,   rgba(180,148,118,0.038) 0px, transparent 1px),
+    repeating-linear-gradient(90deg,  rgba(180,148,118,0.038) 0px, transparent 1px);
+  background-size: 28px 28px;
   color: #1a1a1a;
   overflow-x: hidden;
 }
@@ -40,7 +45,7 @@ html {
 
 /* ── Custom scrollbar ── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f0ede9; }
+::-webkit-scrollbar-track { background: #ede9e3; }
 ::-webkit-scrollbar-thumb { background: #c41e3a; border-radius: 3px; }
 
 /* ── Selection color ── */

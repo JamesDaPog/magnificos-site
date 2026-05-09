@@ -13,8 +13,9 @@ import {
 // BRAND
 // ─────────────────────────────────────────────────
 const BRAND = "#c41e3a";   // refined crimson — deeper, less orange
-const CREAM = "#faf8f6";   // warm neutral — unified page background
+const CREAM = "#faf8f5";   // warm cream — matches body texture background
 const DARK  = "#1a1a1a";   // near-black with warmth
+const WARM  = "#5c4f47";   // warm brown-gray — replaces cold gray-500 in key spots
 
 // Asymmetric leaf — the signature shape replacing all rounded-full / rounded-2xl bubbles
 const LEAF     = "22px 4px 22px 4px";   // top-left top-right bottom-right bottom-left
@@ -170,8 +171,9 @@ function Podium() {
           style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", color: DARK, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
           Top 3 Flavors
         </motion.h2>
-        <motion.p variants={fadeUp} className="text-gray-400 text-[16px]">
-          Voted by our customers
+        <motion.p variants={fadeUp} className="text-[16px] italic"
+          style={{ color: "#9a8c84", fontFamily: "'Fraunces', Georgia, serif" }}>
+          Their favorites, every single time.
         </motion.p>
       </Reveal>
 
@@ -443,9 +445,12 @@ function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/[0.08]">
           <div className="sm:col-span-2 lg:col-span-1">
             <img src="https://images.squarespace-cdn.com/content/v1/643f03c18761982f1e1024f4/a2f161b1-b67d-41b4-97b4-41e2dd1c3dfa/Magnificos-Logo-NoTag-KO.png?format=300w"
-              alt="Magnifico's Ice Cream" className="h-9 w-auto mb-3" style={{ filter: "brightness(0) invert(1)" }} />
-            <p className="text-gray-400 text-[13px] leading-relaxed mb-6 max-w-[220px]">
-              East Brunswick's favorite ice cream shop since 1981. Handmade with love.
+              alt="Magnifico's Ice Cream" className="h-9 w-auto mb-2" style={{ filter: "brightness(0) invert(1)" }} />
+            <p className="font-display text-[14px] mb-3" style={{ fontStyle: "italic", color: "#9a8c84" }}>
+              One scoop at a time, since 1981.
+            </p>
+            <p className="text-gray-500 text-[13px] leading-relaxed mb-6 max-w-[220px]">
+              East Brunswick's favorite ice cream shop. Handmade with love on Route 18.
             </p>
             <div className="flex gap-2">
               {[
@@ -526,10 +531,10 @@ function Home() {
 
               <motion.div variants={fadeUp} className="mb-7">
                 <span className="inline-flex items-center gap-2 px-3.5 py-1.5 text-[11px] font-bold tracking-widest uppercase"
-                  style={{ background: `${BRAND}14`, color: BRAND,
+                  style={{ background: `${BRAND}12`, color: BRAND,
                     borderRadius: LEAFR }}>
                   <span className="w-1.5 h-1.5 rounded-full" style={{ background: BRAND }} />
-                  Open Today · East Brunswick, NJ
+                  Est. 1981 · Route 18, East Brunswick
                 </span>
               </motion.div>
 
@@ -537,7 +542,7 @@ function Home() {
                 style={{ fontSize: "clamp(2.8rem, 5.5vw, 4.5rem)", color: DARK, letterSpacing: "-0.03em" }}>
                 East Brunswick's{" "}
                 <span className="relative inline-block">
-                  <span style={{ color: BRAND }}>Favorite</span>
+                  <em style={{ color: BRAND, fontStyle: "italic" }}>Favorite</em>
                   <motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
                     transition={{ delay: 0.45, duration: 0.35, ease }}
                     className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full origin-left"
@@ -545,8 +550,9 @@ function Home() {
                 </span>{" "}Ice Cream Spot
               </motion.h1>
 
-              <motion.p variants={fadeUp} className="text-[17px] leading-relaxed text-gray-500 mb-9 max-w-[420px]">
-                Homemade flavors, classic desserts, and unforgettable treats — crafted with love since 1981.
+              <motion.p variants={fadeUp} className="text-[17px] leading-relaxed mb-9 max-w-[420px]"
+                style={{ color: WARM }}>
+                From pistachio to cake batter, every scoop is made from scratch — the same way Gary Magnifico made it when he opened these doors over 44 years ago.
               </motion.p>
 
               <motion.div variants={fadeUp} className="flex flex-wrap gap-3.5 mb-12">
@@ -607,14 +613,14 @@ function Home() {
                 className="absolute -bottom-4 -left-3 sm:-left-6 bg-white px-5 py-4"
                 style={{ borderRadius: LEAF, boxShadow: "0 2px 4px rgba(0,0,0,0.10)" }}>
                 <div className="font-display text-2xl font-black leading-none mb-0.5" style={{ color: BRAND, letterSpacing: "-0.02em" }}>44+</div>
-                <div className="text-[11px] text-gray-400 font-medium">Years of Tradition</div>
+                <div className="text-[11px] font-medium" style={{ color: "#9a8c84" }}>Years of Tradition</div>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55, duration: 0.32, ease }}
                 className="absolute -top-3 -right-3 sm:-right-6 bg-white px-5 py-4"
                 style={{ borderRadius: LEAFR, boxShadow: "0 2px 4px rgba(0,0,0,0.10)" }}>
-                <div className="font-display text-2xl font-black leading-none mb-0.5" style={{ color: DARK, letterSpacing: "-0.02em" }}>30+</div>
-                <div className="text-[11px] text-gray-400 font-medium">Flavors Daily</div>
+                <div className="font-display text-2xl font-black leading-none mb-0.5" style={{ color: BRAND, letterSpacing: "-0.02em" }}>30+</div>
+                <div className="text-[11px] font-medium" style={{ color: "#9a8c84" }}>Flavors Daily</div>
               </motion.div>
               {/* Offset accent square — deliberate, not decorative noise */}
               <div className="absolute -z-10 -bottom-5 -right-5 w-32 h-32 border"
@@ -717,7 +723,7 @@ function MenuPage() {
                         }}
                       >
                         {/* Description */}
-                        <p className="text-[15px] text-gray-500 leading-relaxed mb-6 max-w-xl">{desc}</p>
+                        <p className="text-[15px] leading-relaxed mb-6 max-w-xl" style={{ color: WARM }}>{desc}</p>
 
                         {/* Flavor sections */}
                         <div className="flex flex-col gap-6">
@@ -730,11 +736,11 @@ function MenuPage() {
                                 {label}
                               </p>
                               <div className="flex flex-wrap gap-2">
-                                {flavors.map((f) => (
+                                {flavors.map((f, fi) => (
                                   <span
                                     key={f}
                                     className="px-3.5 py-1.5 text-[12px] font-semibold bg-gray-50 border border-gray-200 text-gray-700 hover:bg-red-50 hover:border-red-200 hover:text-red-700 transition-colors cursor-default select-none"
-                                    style={{ borderRadius: LEAFR }}
+                                    style={{ borderRadius: fi % 2 === 0 ? LEAFR : LEAF }}
                                   >
                                     {f}
                                   </span>
@@ -753,7 +759,7 @@ function MenuPage() {
         </div>
 
         <div className="text-center mt-12">
-          <p className="text-[13px] text-gray-400 mb-5">Availability varies by season. Call to confirm today's selection.</p>
+          <p className="text-[13px] mb-5" style={{ color: "#9a8c84" }}>Availability varies by season. Call ahead — we're always happy to tell you what's fresh today.</p>
           <a href="tel:+17322389555"
             className="inline-flex items-center gap-2 text-[13px] font-semibold transition-colors"
             style={{ color: BRAND }}>
@@ -809,10 +815,11 @@ function AboutPage() {
               style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", color: DARK, letterSpacing: "-0.02em", lineHeight: 1.08 }}>
               A Family Tradition <br className="hidden lg:block" />Since 1981
             </motion.h2>
-            <motion.p variants={fadeUp} className="text-gray-500 text-[16px] leading-[1.85] mb-5">
-              Magnifico's Ice Cream was born from a simple belief: that the best ice cream is made by hand, with quality ingredients, and served with genuine care. Gary Magnifico opened our doors on Route 18 over 44 years ago, and that same passion drives every scoop we serve.
+            <motion.p variants={fadeUp} className="text-[16px] leading-[1.85] mb-5" style={{ color: WARM }}>
+              Magnifico's Ice Cream was born from a simple belief: that the best ice cream is made by hand, with quality ingredients, and served with genuine care. Gary Magnifico opened our doors on Route 18 over 44 years ago, and{" "}
+              <em style={{ fontStyle: "italic", color: DARK }}>that same passion drives every scoop we serve.</em>
             </motion.p>
-            <motion.p variants={fadeUp} className="text-gray-500 text-[16px] leading-[1.85] mb-10">
+            <motion.p variants={fadeUp} className="text-[16px] leading-[1.85] mb-10" style={{ color: WARM }}>
               Today, our family continues that tradition — crafting small-batch flavors, welcoming every customer like a neighbor, and staying true to the recipes that made us East Brunswick's most beloved dessert destination.
             </motion.p>
             <motion.div variants={fadeUp} className="grid grid-cols-3 gap-4">
@@ -844,33 +851,43 @@ function ReviewsPage() {
             style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", color: DARK, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
             What People Are Saying
           </motion.h2>
-          <motion.div variants={fadeUp} className="inline-flex items-center gap-2">
-            <Stars />
-            <span className="text-[13px] font-semibold text-gray-700">4.9</span>
-            <span className="text-[13px] text-gray-400">· 200+ Google Reviews</span>
+          <motion.div variants={fadeUp} className="flex flex-col items-center gap-2">
+            <div className="inline-flex items-center gap-2">
+              <Stars />
+              <span className="text-[13px] font-semibold" style={{ color: DARK }}>4.9</span>
+              <span className="text-[13px]" style={{ color: "#9a8c84" }}>· 200+ Google Reviews</span>
+            </div>
+            <p className="font-display text-[15px]" style={{ fontStyle: "italic", color: "#9a8c84" }}>
+              Don't take our word for it.
+            </p>
           </motion.div>
         </Reveal>
 
         <Reveal className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {REVIEWS.map((r) => (
+          {REVIEWS.map((r, ri) => (
             <motion.div key={r.name} variants={fadeUp} whileHover={{ y: -3 }}
               transition={{ duration: 0.2 }}
-              className="bg-white p-8 flex flex-col gap-6"
-              style={{ borderRadius: LEAFR, borderLeft: `4px solid ${BRAND}`,
-                boxShadow: "0 2px 4px rgba(0,0,0,0.07)" }}>
+              className="p-8 flex flex-col gap-6"
+              style={{
+                background: ri === 1 ? "white" : `${BRAND}05`,
+                borderRadius: ri % 2 === 0 ? LEAFR : LEAF,
+                borderLeft: `4px solid ${BRAND}`,
+                boxShadow: "0 2px 4px rgba(0,0,0,0.07)",
+              }}>
               <Stars />
-              {/* Large typographic quote mark — editorial, not an AI text box */}
+              {/* Large typographic open-quote — Fraunces italic for warmth */}
               <div className="relative flex-1">
-                <span className="font-display absolute -top-2 -left-1 leading-none select-none pointer-events-none"
-                  style={{ fontSize: 64, color: `${BRAND}20`, lineHeight: 1 }}>"</span>
-                <p className="text-[15px] text-gray-600 leading-[1.8] pt-1 pl-5 relative">{r.text}</p>
+                <span className="font-display absolute -top-3 -left-1 leading-none select-none pointer-events-none"
+                  style={{ fontSize: 72, color: `${BRAND}1e`, lineHeight: 1, fontStyle: "italic" }}>"</span>
+                <p className="font-display text-[15px] leading-[1.85] pt-1 pl-5 relative"
+                  style={{ fontStyle: "italic", color: WARM }}>{r.text}</p>
               </div>
-              <div className="flex items-center gap-3 pt-1 border-t border-gray-100">
+              <div className="flex items-center gap-3 pt-1 border-t" style={{ borderColor: "rgba(0,0,0,0.07)" }}>
                 <div className="w-9 h-9 flex items-center justify-center text-[12px] font-bold text-white flex-shrink-0"
-                  style={{ background: BRAND, borderRadius: LEAF }}>{r.avatar}</div>
+                  style={{ background: BRAND, borderRadius: ri % 2 === 0 ? LEAF : LEAFR }}>{r.avatar}</div>
                 <div>
                   <div className="text-[13px] font-semibold" style={{ color: DARK }}>{r.name}</div>
-                  <div className="text-[11px] text-gray-400">{r.location}</div>
+                  <div className="text-[11px]" style={{ color: "#9a8c84" }}>{r.location}</div>
                 </div>
               </div>
             </motion.div>
@@ -891,10 +908,14 @@ function VisitPage() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20">
         <Reveal className="text-center mb-14">
           <Label>Find Us</Label>
-          <motion.h2 variants={fadeUp} className="font-display font-bold mt-4"
+          <motion.h2 variants={fadeUp} className="font-display font-bold mt-4 mb-4"
             style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", color: DARK, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
             Come Visit Us
           </motion.h2>
+          <motion.p variants={fadeUp} className="font-display text-[17px]"
+            style={{ fontStyle: "italic", color: "#9a8c84" }}>
+            We'd love to see you.
+          </motion.p>
         </Reveal>
 
         <div className="grid lg:grid-cols-[1fr_1fr] gap-6">
