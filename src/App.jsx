@@ -651,7 +651,7 @@ function Home() {
 // ─────────────────────────────────────────────────
 // ACCORDION CARD — flat (no individual border/radius — container handles that)
 // ─────────────────────────────────────────────────
-function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
+function AccordionCard({ cat, isOpen, onToggle, isFeatured, edge = "left" }) {
   const { name, sub, desc, sections } = cat;
   const pad       = isFeatured ? "24px 28px" : "18px 22px";
   const titleSize = isFeatured ? "text-[21px]" : "text-[16px]";
@@ -659,9 +659,12 @@ function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
   const btnSize   = isFeatured ? 34 : 28;
   const btnFont   = isFeatured ? 20 : 16;
 
+  const edgeStyle = edge === "left"
+    ? { borderLeft:  `3px solid ${BRAND}`, borderRight: "none" }
+    : { borderRight: `3px solid ${BRAND}`, borderLeft:  "none" };
+
   return (
-    <div style={{ borderLeft: isOpen ? `3px solid ${BRAND}` : "3px solid transparent" }}
-      className="transition-colors duration-200">
+    <div style={edgeStyle} className="transition-colors duration-200">
       <button
         onClick={() => onToggle(name)}
         className="w-full flex items-center justify-between gap-4 text-left transition-colors duration-200 cursor-pointer"
@@ -769,9 +772,10 @@ function MenuPage() {
         {/* ── Featured: Ice Cream + Toppings — 2 big, flush side by side ── */}
         <div className="border border-gray-200 overflow-hidden mb-3" style={{ borderRadius: LEAFR }}>
           <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-200">
-            {featured.map(cat => (
+            {featured.map((cat, fi) => (
               <AccordionCard key={cat.name} cat={cat}
-                isOpen={openKey === cat.name} onToggle={toggle} isFeatured />
+                isOpen={openKey === cat.name} onToggle={toggle} isFeatured
+                edge={fi === 0 ? "left" : "right"} />
             ))}
           </div>
         </div>
@@ -782,13 +786,13 @@ function MenuPage() {
             <div className="flex-1 flex flex-col divide-y divide-gray-200">
               {col1.map(cat => (
                 <AccordionCard key={cat.name} cat={cat}
-                  isOpen={openKey === cat.name} onToggle={toggle} />
+                  isOpen={openKey === cat.name} onToggle={toggle} edge="left" />
               ))}
             </div>
             <div className="flex-1 flex flex-col divide-y divide-gray-200 border-t sm:border-t-0 border-gray-200">
               {col2.map(cat => (
                 <AccordionCard key={cat.name} cat={cat}
-                  isOpen={openKey === cat.name} onToggle={toggle} />
+                  isOpen={openKey === cat.name} onToggle={toggle} edge="right" />
               ))}
             </div>
           </div>
