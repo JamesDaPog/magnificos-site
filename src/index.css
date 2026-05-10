@@ -2,10 +2,7 @@
 
 /* ── Custom font utilities ── */
 .font-display {
-  font-family: 'Fraunces', Georgia, serif;
-  /* opsz left on auto — browser scales optical size with font-size,
-     so small labels (18–22px) get text-optimised strokes while
-     large headlines (48–72px) get display-optimised rendering */
+  font-family: 'Bitter', 'Rockwell', Georgia, serif;
 }
 
 /* ── Global base ── */
@@ -15,7 +12,7 @@
 }
 
 body {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Vollkorn', Georgia, serif;
   font-size: 17px;
   line-height: 1.8;
   /* Warm cream with a barely-there linen weave — takes the digital edge off */
