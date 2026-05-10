@@ -12,18 +12,17 @@ import {
 // ─────────────────────────────────────────────────
 // BRAND
 // ─────────────────────────────────────────────────
-const BRAND = "#c41e3a";   // refined crimson — deeper, less orange
-const CREAM = "#faf8f5";   // warm cream — matches body texture background
+const BRAND = "#c41e3a";   // refined crimson
+const CREAM = "#faf8f5";   // warm cream
 const DARK  = "#1a1a1a";   // near-black with warmth
 const WARM  = "#5c4f47";   // warm brown-gray for body copy (8:1 contrast)
-const MUTED = "#6e6460";   // warm medium-gray for secondary text (5.3:1 — passes AA)
+const MUTED = "#6e6460";   // warm medium-gray for secondary text (5.3:1 — WCAG AA)
 
-// Asymmetric leaf — the signature shape replacing all rounded-full / rounded-2xl bubbles
-const LEAF     = "22px 4px 22px 4px";   // top-left top-right bottom-right bottom-left
-const LEAFR    = "4px 22px 4px 22px";   // mirrored
-// Accordion corner halves — top and bottom of LEAFR split at the seam
-const LEAFR_TOP = "4px 22px 0 0";        // open header: bottom corners squared off
-const LEAFR_BOT = "0 0 4px 22px";        // dropdown panel: top corners squared off
+// Asymmetric leaf — the signature shape
+const LEAF      = "22px 4px 22px 4px";
+const LEAFR     = "4px 22px 4px 22px";
+const LEAFR_TOP = "4px 22px 0 0";
+const LEAFR_BOT = "0 0 4px 22px";
 
 // ─────────────────────────────────────────────────
 // DATA
@@ -108,13 +107,12 @@ const MENU_CATEGORIES = [
     sub: "28 toppings to pile on",
     desc: "Pile on as many as you want. We carry over 28 toppings — candy, crunch, nuts, fruit, and everything in between. Make it yours.",
     sections: [
-      { label: "Candy & Fun",     flavors: ["Rainbow Sprinkles","Chocolate Sprinkles","M&Ms","Reese's Pieces","Peanut Butter Cups","Sour Worms","Sour Patch Kids","Swedish Fish","Gummi Bears","Maraschino Cherries"] },
+      { label: "Candy & Fun",      flavors: ["Rainbow Sprinkles","Chocolate Sprinkles","M&Ms","Reese's Pieces","Peanut Butter Cups","Sour Worms","Sour Patch Kids","Swedish Fish","Gummi Bears","Maraschino Cherries"] },
       { label: "Cookie & Brownie", flavors: ["Oreos","Chocolate Chips","Cookie Dough","Brownie Bites","Graham Crackers","Heath Bar","Chocolate Crunch","Waffle Cone Crunch"] },
-      { label: "Nuts & Extras",   flavors: ["Dry Walnuts","Toasted Almond Crunch","Pecans","Salted Almonds","Chopped Peanuts","Coconut","Toasted Coconut","Malt Powder","Whipped Cream","Nutella"] },
+      { label: "Nuts & Extras",    flavors: ["Dry Walnuts","Toasted Almond Crunch","Pecans","Salted Almonds","Chopped Peanuts","Coconut","Toasted Coconut","Malt Powder","Whipped Cream","Nutella"] },
     ],
   },
 ];
-
 
 const REVIEWS = [
   { name: "Sarah M.",    location: "East Brunswick, NJ", text: "The pistachio here is absolutely phenomenal. Best I've ever had — and I've been going since I was a kid. A true East Brunswick treasure.", avatar: "S" },
@@ -156,12 +154,10 @@ const stagger = {
 // ─────────────────────────────────────────────────
 // PODIUM
 // ─────────────────────────────────────────────────
-// Classical column palette — warm marble tones
-const COL_SHAFT   = "#f0ebe4";   // column body
-const COL_CAP     = "#e2dbd2";   // capital / base steps
-const COL_BASE    = "#d4cdc4";   // lowest step
-// Vertical fluting — 7 grooves across the shaft width
-const FLUTING = "repeating-linear-gradient(90deg, rgba(0,0,0,0.055) 0px, rgba(0,0,0,0.055) 3px, transparent 3px, transparent 18px)";
+const COL_SHAFT = "#f0ebe4";
+const COL_CAP   = "#e2dbd2";
+const COL_BASE  = "#d4cdc4";
+const FLUTING   = "repeating-linear-gradient(90deg, rgba(0,0,0,0.055) 0px, rgba(0,0,0,0.055) 3px, transparent 3px, transparent 18px)";
 
 const PODIUM_DATA = [
   { rank: "II",  name: "Strawberry",  h: 180, delay: 0.1  },
@@ -199,20 +195,16 @@ function Podium() {
               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
               transition={{ delay, duration: 0.6, ease: [0.4, 0, 0.2, 1] }}>
 
-              {/* Flavor name — sits above the capital */}
               <p className="font-semibold text-[13px] sm:text-[15px] text-center leading-tight mb-3 px-1"
                 style={{ color: isFirst ? BRAND : "#4b4540" }}>
                 {name}
               </p>
 
-              {/* ── Capital (top) ── */}
               <div style={{ width: "92%", height: 14, background: COL_CAP,
                 borderRadius: "5px 5px 0 0",
                 boxShadow: "0 2px 4px rgba(0,0,0,0.06)" }} />
-              {/* Neck — slight taper */}
               <div style={{ width: "76%", height: 7, background: COL_SHAFT }} />
 
-              {/* ── Fluted shaft ── */}
               <div style={{
                 width: "76%", height: h,
                 background: COL_SHAFT,
@@ -221,7 +213,6 @@ function Podium() {
                 display: "flex", flexDirection: "column",
                 alignItems: "center", justifyContent: "center", gap: 6,
               }}>
-                {/* Roman rank — the main text element */}
                 <span className="font-display select-none"
                   style={{
                     fontSize: "clamp(1.6rem, 2.8vw, 2.2rem)",
@@ -233,7 +224,6 @@ function Podium() {
                 </span>
               </div>
 
-              {/* ── Base — two-step plinth ── */}
               <div style={{ width: "76%",  height: 7,  background: COL_CAP }} />
               <div style={{ width: "88%",  height: 12, background: COL_CAP,
                 boxShadow: "0 2px 4px rgba(0,0,0,0.06)" }} />
@@ -245,7 +235,6 @@ function Podium() {
         })}
       </div>
 
-      {/* Ground shadow — the floor the columns stand on */}
       <div className="mx-auto mt-1" style={{ maxWidth: 560 }}>
         <div style={{ height: 2, background: `rgba(0,0,0,0.07)`, borderRadius: 2,
           boxShadow: "0 2px 4px rgba(0,0,0,0.06)" }} />
@@ -275,16 +264,12 @@ function Reveal({ children, className = "" }) {
   );
 }
 
+// Plain spaced uppercase label — no decorative markers
 function Label({ children }) {
   return (
     <motion.span variants={fadeUp}
-      className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.18em] uppercase"
-      style={{ color: BRAND, fontFamily: "'Lora', Georgia, serif" }}>
-      {/* dash + dot marker */}
-      <span className="inline-flex items-center gap-1 flex-shrink-0">
-        <span className="inline-block w-4 h-[2px]" style={{ background: BRAND }} />
-        <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: BRAND }} />
-      </span>
+      className="inline-block text-[11px] font-bold tracking-[0.18em] uppercase"
+      style={{ color: BRAND }}>
       {children}
     </motion.span>
   );
@@ -479,7 +464,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-[10px] font-bold tracking-widest uppercase mb-5 flex items-center gap-2" style={{ color: BRAND }}><span style={{ display:"inline-block", width:12, height:2, background:BRAND, flexShrink:0 }} />Pages</h4>
+            <h4 className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: BRAND }}>Pages</h4>
             <div className="flex flex-col gap-3">
               {NAV_LINKS.map(({ label, path }) => (
                 <Link key={path} to={path} className="text-[13px] text-gray-400 hover:text-white transition-colors">{label}</Link>
@@ -488,7 +473,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-[10px] font-bold tracking-widest uppercase mb-5 flex items-center gap-2" style={{ color: BRAND }}><span style={{ display:"inline-block", width:12, height:2, background:BRAND, flexShrink:0 }} />Visit Us</h4>
+            <h4 className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: BRAND }}>Visit Us</h4>
             <div className="flex flex-col gap-2.5 text-[13px] text-gray-400">
               <span>500 State Route 18</span>
               <span>East Brunswick, NJ 08816</span>
@@ -497,7 +482,7 @@ function Footer() {
           </div>
 
           <div>
-            <h4 className="text-[10px] font-bold tracking-widest uppercase mb-5 flex items-center gap-2" style={{ color: BRAND }}><span style={{ display:"inline-block", width:12, height:2, background:BRAND, flexShrink:0 }} />Hours</h4>
+            <h4 className="text-[10px] font-bold tracking-widest uppercase mb-5" style={{ color: BRAND }}>Hours</h4>
             <div className="flex flex-col gap-3 text-[13px]">
               {HOURS.map(({ day, time }) => (
                 <div key={day}>
@@ -530,7 +515,6 @@ function Home() {
     <PageWrapper bg={CREAM}>
       <div className="relative overflow-hidden min-h-screen">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Single, barely-visible warm wash — no blobs, no grids */}
           <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full"
             style={{ background: `radial-gradient(circle, ${BRAND}0d 0%, transparent 65%)` }} />
         </div>
@@ -541,14 +525,12 @@ function Home() {
             <motion.div initial="hidden" animate="visible" variants={stagger}
               className="flex flex-col justify-center py-10 lg:py-16">
 
-              <motion.div variants={fadeUp} className="mb-7">
-                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 text-[11px] font-bold tracking-widest uppercase"
-                  style={{ background: `${BRAND}12`, color: BRAND,
-                    borderRadius: LEAFR }}>
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: BRAND }} />
-                  Est. 1981 · Route 18, East Brunswick
-                </span>
-              </motion.div>
+              {/* Plain text location line — no pill wrapper */}
+              <motion.p variants={fadeUp}
+                className="text-[11px] font-bold tracking-[0.18em] uppercase mb-7"
+                style={{ color: BRAND }}>
+                Est. 1981 · Route 18, East Brunswick
+              </motion.p>
 
               <motion.h1 variants={fadeUp} className="font-display font-black leading-[1.0] mb-6"
                 style={{ fontSize: "clamp(2.8rem, 5.5vw, 4.5rem)", color: DARK, letterSpacing: "-0.03em" }}>
@@ -567,7 +549,7 @@ function Home() {
                 From pistachio to cake batter, every scoop is made from scratch — the same way Gary Magnifico made it when he opened these doors over 44 years ago.
               </motion.p>
 
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-3.5 mb-12">
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-3.5 mb-10">
                 <motion.a whileHover={{ scale: 1.03, boxShadow: "#FF300830 0px 6px 16px" }} whileTap={{ scale: 0.97 }}
                   href="https://www.doordash.com/store/magnifico%27s-ice-cream-east-brunswick-26274712/29228948/" target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3.5 text-[14px] font-semibold text-white"
@@ -584,31 +566,14 @@ function Home() {
                 </motion.div>
               </motion.div>
 
+              {/* Simple text link — no avatar stack, no star row */}
               <motion.div variants={fadeUp}>
                 <a href="https://www.google.com/maps/place/Magnifico%27s+Ice+Cream/@40.4329,-74.4285,17z/data=!4m8!3m7!1s0x89c3b0f34f8e4d5b:0x1a2b3c4d5e6f7890!8m2!3d40.4329!4d-74.4285!9m1!1b1"
                   target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 group">
-                  <div className="flex -space-x-2">
-                    {["S","M","J","R","A"].map((l, i) => (
-                      <div key={i} className="w-8 h-8 border-2 border-white flex items-center justify-center text-[10px] font-bold text-white"
-                        style={{ background: [BRAND,"#374151","#44403c","#78716c","#1c1917"][i], borderRadius: i % 2 === 0 ? LEAF : LEAFR }}>{l}</div>
-                    ))}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1.5 mb-0.5">
-                      <Stars />
-                      <span className="text-xs font-bold text-gray-800">4.9</span>
-                      {/* Google "G" wordmark color dots */}
-                      <span className="text-[10px] font-semibold transition-colors"
-                        style={{ color: MUTED }}>
-                        · Google
-                      </span>
-                    </div>
-                    <p className="text-[11px] transition-colors"
-                      style={{ color: MUTED }}>
-                      200+ reviews · See on Google Maps
-                    </p>
-                  </div>
+                  className="inline-flex items-center gap-2 text-[13px] transition-colors hover:opacity-80"
+                  style={{ color: MUTED }}>
+                  <Stars />
+                  <span>4.9 &nbsp;·&nbsp; 200+ Google reviews</span>
                 </a>
               </motion.div>
             </motion.div>
@@ -619,24 +584,9 @@ function Home() {
                   boxShadow: "0 2px 4px rgba(0,0,0,0.12)" }}>
                 <img src="https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=900&q=85"
                   alt="Colorful ice cream at Magnifico's" className="w-full h-full object-cover" loading="eager" />
-                {/* Subtle vignette — not a gradient hero overlay */}
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.12) 0%, transparent 40%)" }} />
               </div>
-              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.42, duration: 0.32, ease }}
-                className="absolute -bottom-4 -left-3 sm:-left-6 bg-white px-5 py-4"
-                style={{ borderRadius: LEAF, boxShadow: "0 2px 4px rgba(0,0,0,0.10)" }}>
-                <div className="font-display text-2xl font-black leading-none mb-0.5" style={{ color: BRAND, letterSpacing: "-0.02em" }}>44+</div>
-                <div className="text-[11px] font-medium" style={{ color: MUTED }}>Years of Tradition</div>
-              </motion.div>
-              <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.55, duration: 0.32, ease }}
-                className="absolute -top-3 -right-3 sm:-right-6 bg-white px-5 py-4"
-                style={{ borderRadius: LEAFR, boxShadow: "0 2px 4px rgba(0,0,0,0.10)" }}>
-                <div className="font-display text-2xl font-black leading-none mb-0.5" style={{ color: BRAND, letterSpacing: "-0.02em" }}>30+</div>
-                <div className="text-[11px] font-medium" style={{ color: MUTED }}>Flavors Daily</div>
-              </motion.div>
-              {/* Offset accent square — deliberate, not decorative noise */}
+              {/* Offset accent square */}
               <div className="absolute -z-10 -bottom-5 -right-5 w-32 h-32 border"
                 style={{ borderRadius: 12, borderColor: `${BRAND}22` }} />
             </motion.div>
@@ -649,9 +599,9 @@ function Home() {
 }
 
 // ─────────────────────────────────────────────────
-// ACCORDION CARD — flat (no individual border/radius — container handles that)
+// ACCORDION CARD — tint-only open state, no edge stripes
 // ─────────────────────────────────────────────────
-function AccordionCard({ cat, isOpen, onToggle, isFeatured, edge = "left" }) {
+function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
   const { name, sub, desc, sections } = cat;
   const pad       = isFeatured ? "24px 28px" : "18px 22px";
   const titleSize = isFeatured ? "text-[21px]" : "text-[16px]";
@@ -659,14 +609,8 @@ function AccordionCard({ cat, isOpen, onToggle, isFeatured, edge = "left" }) {
   const btnSize   = isFeatured ? 34 : 28;
   const btnFont   = isFeatured ? 20 : 16;
 
-  const edgeStyle = isOpen
-    ? edge === "left"
-      ? { borderLeft:  `3px solid ${BRAND}`, borderRight: "none" }
-      : { borderRight: `3px solid ${BRAND}`, borderLeft:  "none" }
-    : { borderLeft: "none", borderRight: "none" };
-
   return (
-    <div style={edgeStyle} className="transition-colors duration-200">
+    <div className="transition-colors duration-200">
       <button
         onClick={() => onToggle(name)}
         className="w-full flex items-center justify-between gap-4 text-left transition-colors duration-200 cursor-pointer"
@@ -706,10 +650,9 @@ function AccordionCard({ cat, isOpen, onToggle, isFeatured, edge = "left" }) {
               <div className="flex flex-col gap-6">
                 {sections.map(({ label, flavors }) => (
                   <div key={label}>
-                    <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-3 flex items-center gap-2"
+                    {/* Plain uppercase section label — no dash/dot markers */}
+                    <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-3"
                       style={{ color: BRAND }}>
-                      <span className="inline-block w-3 h-[2px]" style={{ background: BRAND }} />
-                      <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: BRAND }} />
                       {label}
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -743,7 +686,6 @@ function MenuPage() {
 
   const featured = MENU_CATEGORIES.filter(c => FEATURED_NAMES.includes(c.name));
   const others   = MENU_CATEGORIES.filter(c => !FEATURED_NAMES.includes(c.name));
-  // Split others into left/right columns so each accordion expands independently
   const col1 = others.filter((_, i) => i % 2 === 0);
   const col2 = others.filter((_, i) => i % 2 !== 0);
 
@@ -771,30 +713,29 @@ function MenuPage() {
           </motion.a>
         </Reveal>
 
-        {/* ── Featured: Ice Cream + Toppings — 2 big, flush side by side ── */}
+        {/* Featured: Ice Cream + Toppings — 2 big, flush side by side */}
         <div className="border border-gray-200 overflow-hidden mb-3" style={{ borderRadius: LEAFR }}>
           <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-200">
-            {featured.map((cat, fi) => (
+            {featured.map((cat) => (
               <AccordionCard key={cat.name} cat={cat}
-                isOpen={openKey === cat.name} onToggle={toggle} isFeatured
-                edge={fi === 0 ? "left" : "right"} />
+                isOpen={openKey === cat.name} onToggle={toggle} isFeatured />
             ))}
           </div>
         </div>
 
-        {/* ── Others: 2 × 3 flush grid — two independent flex columns ── */}
+        {/* Others: 2 × 3 flush grid */}
         <div className="border border-gray-200 overflow-hidden" style={{ borderRadius: LEAFR }}>
           <div className="flex flex-col sm:flex-row sm:divide-x divide-gray-200">
             <div className="flex-1 flex flex-col divide-y divide-gray-200">
               {col1.map(cat => (
                 <AccordionCard key={cat.name} cat={cat}
-                  isOpen={openKey === cat.name} onToggle={toggle} edge="left" />
+                  isOpen={openKey === cat.name} onToggle={toggle} />
               ))}
             </div>
             <div className="flex-1 flex flex-col divide-y divide-gray-200 border-t sm:border-t-0 border-gray-200">
               {col2.map(cat => (
                 <AccordionCard key={cat.name} cat={cat}
-                  isOpen={openKey === cat.name} onToggle={toggle} edge="right" />
+                  isOpen={openKey === cat.name} onToggle={toggle} />
               ))}
             </div>
           </div>
@@ -834,9 +775,9 @@ function AboutPage() {
               </div>
               <div className="absolute -z-10 -top-5 -left-5 w-28 h-28 rounded-2xl" style={{ background: `${BRAND}1f` }} />
               <div className="absolute -z-10 -bottom-5 -right-5 w-20 h-20 rounded-full" style={{ background: `${BRAND}15` }} />
+              {/* Overlay card — background tint, no side stripe */}
               <div className="absolute bottom-6 left-6 right-6 bg-white/92 backdrop-blur-sm p-4"
-                style={{ borderRadius: LEAFR, borderLeft: `3px solid ${BRAND}`,
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.08)" }}>
+                style={{ borderRadius: LEAFR, boxShadow: "0 2px 4px rgba(0,0,0,0.08)" }}>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 flex items-center justify-center flex-shrink-0"
                     style={{ background: BRAND, borderRadius: LEAF }}>
@@ -864,11 +805,13 @@ function AboutPage() {
             <motion.p variants={fadeUp} className="text-[16px] leading-[1.85] mb-10" style={{ color: WARM }}>
               Today, our family continues that tradition — crafting small-batch flavors, welcoming every customer like a neighbor, and staying true to the recipes that made us East Brunswick's most beloved dessert destination.
             </motion.p>
-            <motion.div variants={fadeUp} className="grid grid-cols-3 gap-4">
+            {/* Stats as a simple inline row — no card borders, no top stripes */}
+            <motion.div variants={fadeUp} className="flex gap-10 pt-2 pb-2">
               {ABOUT_STATS.map(({ num, label }) => (
-                <div key={label} className="text-center py-6 px-5 bg-white" style={{ borderRadius: LEAF, borderTop: `3px solid ${BRAND}`, boxShadow: "0 2px 4px rgba(0,0,0,0.07)" }}>
-                  <div className="font-display text-2xl font-black mb-1" style={{ color: BRAND, letterSpacing: "-0.02em" }}>{num}</div>
-                  <div className="text-[11px] font-medium leading-tight" style={{ color: MUTED }}>{label}</div>
+                <div key={label}>
+                  <div className="font-display text-3xl font-black leading-none mb-1.5"
+                    style={{ color: BRAND, letterSpacing: "-0.02em" }}>{num}</div>
+                  <div className="text-[12px] font-medium" style={{ color: MUTED }}>{label}</div>
                 </div>
               ))}
             </motion.div>
@@ -886,45 +829,36 @@ function AboutPage() {
 function ReviewsPage() {
   return (
     <PageWrapper bg={CREAM}>
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20">
-        <Reveal className="text-center mb-14">
+      <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-28 pb-20">
+        <Reveal className="mb-14">
           <Label>Reviews</Label>
           <motion.h2 variants={fadeUp} className="font-display font-bold mt-4 mb-5"
             style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", color: DARK, letterSpacing: "-0.02em", lineHeight: 1.1 }}>
             What People Are Saying
           </motion.h2>
-          <motion.div variants={fadeUp} className="flex flex-col items-center gap-2">
-            <div className="inline-flex items-center gap-2">
-              <Stars />
-              <span className="text-[13px] font-semibold" style={{ color: DARK }}>4.9</span>
-              <span className="text-[13px]" style={{ color: MUTED }}>· 200+ Google Reviews</span>
-            </div>
-            <p className="font-display text-[15px]" style={{ fontStyle: "italic", color: "#9a8c84" }}>
-              Don't take our word for it.
-            </p>
+          <motion.div variants={fadeUp} className="flex items-center gap-2">
+            <Stars />
+            <span className="text-[13px] font-semibold" style={{ color: DARK }}>4.9</span>
+            <span className="text-[13px]" style={{ color: MUTED }}>· 200+ Google Reviews</span>
           </motion.div>
         </Reveal>
 
-        <Reveal className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* Pull-quote layout — no cards, no borders, staggered indentation */}
+        <Reveal className="flex flex-col">
           {REVIEWS.map((r, ri) => (
-            <motion.div key={r.name} variants={fadeUp} whileHover={{ y: -3 }}
-              transition={{ duration: 0.2 }}
-              className="p-8 flex flex-col gap-6"
+            <motion.div key={r.name} variants={fadeUp}
+              className="py-10 flex flex-col gap-5"
               style={{
-                background: ri === 1 ? "white" : `${BRAND}05`,
-                borderRadius: ri % 2 === 0 ? LEAFR : LEAF,
-                borderLeft: `4px solid ${BRAND}`,
-                boxShadow: "0 2px 4px rgba(0,0,0,0.07)",
+                borderTop: ri > 0 ? "1px solid rgba(0,0,0,0.08)" : "none",
+                paddingLeft:  ri === 1 ? "6%" : "0",
+                paddingRight: ri === 1 ? "0"  : "6%",
               }}>
-              <Stars />
-              {/* Large typographic open-quote — Fraunces italic for warmth */}
-              <div className="relative flex-1">
-                <span className="font-display absolute -top-3 -left-1 leading-none select-none pointer-events-none"
-                  style={{ fontSize: 72, color: `${BRAND}1e`, lineHeight: 1, fontStyle: "italic" }}>"</span>
-                <p className="font-display text-[15px] leading-[1.85] pt-1 pl-5 relative"
-                  style={{ fontStyle: "italic", color: WARM }}>{r.text}</p>
-              </div>
-              <div className="flex items-center gap-3 pt-1 border-t" style={{ borderColor: "rgba(0,0,0,0.07)" }}>
+              <Stars count={5} />
+              <p className="font-display leading-[1.75]"
+                style={{ fontSize: "clamp(1.05rem, 2vw, 1.25rem)", fontStyle: "italic", color: DARK }}>
+                "{r.text}"
+              </p>
+              <div className="flex items-center gap-3">
                 <div className="w-9 h-9 flex items-center justify-center text-[12px] font-bold text-white flex-shrink-0"
                   style={{ background: BRAND, borderRadius: ri % 2 === 0 ? LEAF : LEAFR }}>{r.avatar}</div>
                 <div>
@@ -935,6 +869,15 @@ function ReviewsPage() {
             </motion.div>
           ))}
         </Reveal>
+
+        <div className="mt-10 pt-8 border-t border-gray-200 text-center">
+          <a href="https://www.google.com/maps/place/Magnifico%27s+Ice+Cream/@40.4329,-74.4285,17z"
+            target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-semibold border border-gray-300 transition-colors hover:border-gray-500"
+            style={{ borderRadius: LEAFR, color: DARK }}>
+            Read all reviews on Google Maps
+          </a>
+        </div>
       </div>
       <Footer />
     </PageWrapper>
