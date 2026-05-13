@@ -150,9 +150,9 @@ const stagger = {
 };
 
 const pageVariants = {
-  initial: { opacity: 0, y: 14 },
-  enter:   { opacity: 1, y: 0,   transition: { duration: 0.28, ease } },
-  exit:    { opacity: 0, y: -12, transition: { duration: 0.18, ease } },
+  initial: { opacity: 0 },
+  enter:   { opacity: 1, transition: { duration: 0.22, ease } },
+  exit:    { opacity: 0, transition: { duration: 0.15, ease } },
 };
 
 // ─────────────────────────────────────────────────
@@ -160,7 +160,7 @@ const pageVariants = {
 // ─────────────────────────────────────────────────
 function Reveal({ children, className = "" }) {
   const ref    = useRef(null);
-  const inView = useInView(ref, { once: false, margin: "-60px 0px" });
+  const inView = useInView(ref, { once: true, margin: "-60px 0px" });
   return (
     <motion.div ref={ref} variants={stagger} initial="hidden"
       animate={inView ? "visible" : "hidden"} className={className}>
@@ -205,7 +205,7 @@ function PageWrapper({ children, bg = "#faf8f6" }) {
 // ─────────────────────────────────────────────────
 function Podium() {
   const ref    = useRef(null);
-  const inView = useInView(ref, { once: false, margin: "-60px 0px" });
+  const inView = useInView(ref, { once: true, margin: "-60px 0px" });
 
   return (
     <div className="mb-20">
@@ -588,71 +588,72 @@ function AccordionCard({ cat, isOpen, onToggle, isFeatured }) {
 
   return (
     <div>
-      <motion.button
+      {/* Plain button — CSS transitions only, no Framer Motion per frame */}
+      <button
         onClick={() => onToggle(name)}
         className="w-full flex items-center justify-between gap-4 text-left cursor-pointer"
-        style={{ padding: pad, background: isOpen ? `${BRAND}07` : "white" }}
-        animate={{ background: isOpen ? `${BRAND}07` : "#ffffff" }}
-        transition={{ duration: 0.2, ease }}>
+        style={{
+          padding: pad,
+          background: isOpen ? `${BRAND}07` : "white",
+          transition: "background 0.2s ease",
+        }}>
         <div className="flex-1 min-w-0">
           <h3 className={`font-display font-bold ${titleSize}`}
             style={{ color: isOpen ? BRAND : DARK, letterSpacing: "-0.02em",
               transition: "color 0.2s ease" }}>{name}</h3>
           <p className={`mt-0.5 ${subSize}`} style={{ color: MUTED }}>{sub}</p>
         </div>
-        <motion.div
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.25, ease }}
+        <div
           className="flex items-center justify-center flex-shrink-0 font-bold leading-none"
           style={{
             width: btnSize, height: btnSize, fontSize: btnFont,
             borderRadius: LEAF,
             border: `1px solid ${isOpen ? BRAND : "#d1d5db"}`,
             color: isOpen ? BRAND : "#9ca3af",
-            transition: "border-color 0.2s, color 0.2s",
+            transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+            transition: "transform 0.25s ease, border-color 0.2s, color 0.2s",
             flexShrink: 0,
           }}>
           +
-        </motion.div>
-      </motion.button>
+        </div>
+      </button>
 
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.38, ease }}>
-            <div style={{ overflow: "hidden" }}>
-              <div style={{ padding: pad, background: `${BRAND}04` }}>
-                <p className="text-[15px] leading-relaxed mb-6 max-w-xl" style={{ color: WARM }}>{desc}</p>
-                <div className="flex flex-col gap-6">
-                  {sections.map(({ label, flavors }) => (
-                    <div key={label}>
-                      <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color: BRAND }}>
-                        {label}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {flavors.map((f, fi) => (
-                          <motion.span key={f}
-                            whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                            className="px-3.5 py-1.5 text-[12px] font-semibold bg-white text-gray-900 cursor-pointer select-none"
-                            style={{ border: "1.5px solid #1a1a1a", borderRadius: fi % 2 === 0 ? LEAFR : LEAF,
-                              transition: "background 0.15s, color 0.15s" }}
-                            onMouseEnter={e => { e.currentTarget.style.background = DARK; e.currentTarget.style.color = "#fff"; }}
-                            onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#111827"; }}>
-                            {f}
-                          </motion.span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
+      {/* CSS grid trick: grid-template-rows 0fr→1fr is GPU-friendly, no JS per frame */}
+      <div style={{
+        display: "grid",
+        gridTemplateRows: isOpen ? "1fr" : "0fr",
+        transition: "grid-template-rows 0.32s ease",
+      }}>
+        <div style={{ overflow: "hidden" }}>
+          <div style={{ padding: pad, background: `${BRAND}04` }}>
+            <p className="text-[15px] leading-relaxed mb-6 max-w-xl" style={{ color: WARM }}>{desc}</p>
+            <div className="flex flex-col gap-6">
+              {sections.map(({ label, flavors }) => (
+                <div key={label}>
+                  <p className="text-[10px] font-bold tracking-[0.18em] uppercase mb-3" style={{ color: BRAND }}>
+                    {label}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {flavors.map((f, fi) => (
+                      <span key={f}
+                        className="px-3.5 py-1.5 text-[12px] font-semibold bg-white text-gray-900 cursor-pointer select-none"
+                        style={{
+                          border: "1.5px solid #1a1a1a",
+                          borderRadius: fi % 2 === 0 ? LEAFR : LEAF,
+                          transition: "background 0.15s, color 0.15s",
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = DARK; e.currentTarget.style.color = "#fff"; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#111827"; }}>
+                        {f}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
