@@ -25,8 +25,7 @@ const LEAFR_BOT = "0 0 4px 22px";
 // ─────────────────────────────────────────────────
 // EASING
 // ─────────────────────────────────────────────────
-const ease     = [0.22, 0.03, 0.26, 1];          // ease-out-quart
-const easeExpo = [0.16, 1, 0.3, 1];              // ease-out-expo — for curtain reveals
+const ease = [0.22, 0.03, 0.26, 1];   // ease-out-quart
 
 // ─────────────────────────────────────────────────
 // DATA
@@ -137,23 +136,23 @@ const FAVORITES = [
 // ANIMATION VARIANTS
 // ─────────────────────────────────────────────────
 const fadeUp = {
-  hidden:  { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease } },
+  hidden:  { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.32, ease } },
 };
 
 const fadeIn = {
   hidden:  { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.32, ease } },
+  visible: { opacity: 1, transition: { duration: 0.28, ease } },
 };
 
 const stagger = {
-  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.055, delayChildren: 0.02 } },
 };
 
 const pageVariants = {
   initial: { opacity: 0, y: 14 },
-  enter:   { opacity: 1, y: 0,   transition: { duration: 0.3, ease } },
-  exit:    { opacity: 0, y: -10, transition: { duration: 0.18, ease } },
+  enter:   { opacity: 1, y: 0,   transition: { duration: 0.28, ease } },
+  exit:    { opacity: 0, y: -12, transition: { duration: 0.18, ease } },
 };
 
 // ─────────────────────────────────────────────────
@@ -161,7 +160,7 @@ const pageVariants = {
 // ─────────────────────────────────────────────────
 function Reveal({ children, className = "" }) {
   const ref    = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px 0px" });
+  const inView = useInView(ref, { once: false, margin: "-60px 0px" });
   return (
     <motion.div ref={ref} variants={stagger} initial="hidden"
       animate={inView ? "visible" : "hidden"} className={className}>
@@ -206,7 +205,7 @@ function PageWrapper({ children, bg = "#faf8f6" }) {
 // ─────────────────────────────────────────────────
 function Podium() {
   const ref    = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px 0px" });
+  const inView = useInView(ref, { once: false, margin: "-60px 0px" });
 
   return (
     <div className="mb-20">
@@ -228,9 +227,9 @@ function Podium() {
           <motion.div key={name}
             className="flex items-center gap-5 px-7 py-5 bg-white"
             style={{ borderTop: i > 0 ? "1px solid rgba(0,0,0,0.07)" : "none" }}
-            initial={{ opacity: 0, x: -28 }}
-            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -28 }}
-            transition={{ delay: i * 0.12, duration: 0.5, ease: easeExpo }}>
+            initial={{ opacity: 0, x: -18 }}
+            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -18 }}
+            transition={{ delay: i * 0.07, duration: 0.32, ease }}>
             <span className="font-display font-black flex-shrink-0 w-8 text-center"
               style={{ fontSize: "clamp(1.4rem, 2.5vw, 1.8rem)", color: rank === 1 ? BRAND : "#c9bfb8", letterSpacing: "-0.02em" }}>
               {rank}
@@ -473,69 +472,35 @@ function Home() {
           {/* 45 / 55 split — image gets more room */}
           <div className="grid lg:grid-cols-[9fr_11fr] gap-10 xl:gap-14 items-center min-h-[calc(100vh-120px)]">
 
-            {/* Left — text, explicit delays instead of stagger so headline controls its own timing */}
-            <div className="flex flex-col justify-center py-10 lg:py-16">
+            {/* Left — single stagger cascade, same as every other section */}
+            <motion.div initial="hidden" animate="visible" variants={stagger}
+              className="flex flex-col justify-center py-10 lg:py-16">
 
-              <motion.p
-                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.05, duration: 0.4, ease }}
-                className="text-[11px] font-bold tracking-[0.18em] uppercase mb-6"
+              <motion.p variants={fadeUp}
+                className="text-[11px] font-bold tracking-[0.18em] uppercase mb-7"
                 style={{ color: BRAND }}>
                 Est. 1981 · Route 18, East Brunswick
               </motion.p>
 
-              {/* Theater-curtain headline */}
-              <h1 className="font-display font-black mb-7"
-                style={{ fontSize: "clamp(3.1rem, 5.2vw, 4.9rem)", color: DARK, letterSpacing: "-0.03em", lineHeight: 1.0 }}>
+              <motion.h1 variants={fadeUp} className="font-display font-black leading-[1.0] mb-6"
+                style={{ fontSize: "clamp(2.8rem, 5.2vw, 4.9rem)", color: DARK, letterSpacing: "-0.03em" }}>
+                East Brunswick's{" "}
+                <span className="relative inline-block">
+                  <em style={{ color: BRAND, fontStyle: "italic" }}>Favorite</em>
+                  <motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
+                    transition={{ delay: 0.45, duration: 0.35, ease }}
+                    className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full origin-left"
+                    style={{ background: BRAND }} />
+                </span>{" "}Ice Cream Spot
+              </motion.h1>
 
-                {/* Line 1 — clip reveal */}
-                <span style={{ display: "block", overflow: "hidden", paddingBottom: "0.04em" }}>
-                  <motion.span style={{ display: "block" }}
-                    initial={{ y: "110%" }} animate={{ y: 0 }}
-                    transition={{ delay: 0.12, duration: 0.62, ease: easeExpo }}>
-                    East Brunswick's
-                  </motion.span>
-                </span>
-
-                {/* Line 2 — Favorite (fade+slide so absolute underline isn't clipped) */}
-                <motion.span style={{ display: "block", paddingBottom: "0.06em" }}
-                  initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.22, duration: 0.48, ease }}>
-                  <span className="relative inline-block">
-                    <em style={{ color: BRAND, fontStyle: "italic" }}>Favorite</em>
-                    <motion.span
-                      initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
-                      transition={{ delay: 0.72, duration: 0.4, ease }}
-                      className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full origin-left"
-                      style={{ background: BRAND }} />
-                  </span>
-                </motion.span>
-
-                {/* Line 3 — clip reveal */}
-                <span style={{ display: "block", overflow: "hidden" }}>
-                  <motion.span style={{ display: "block" }}
-                    initial={{ y: "110%" }} animate={{ y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.62, ease: easeExpo }}>
-                    Ice Cream Spot
-                  </motion.span>
-                </span>
-              </h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.52, duration: 0.44, ease }}
-                className="text-[17px] leading-relaxed mb-9 max-w-[440px]"
+              <motion.p variants={fadeUp} className="text-[17px] leading-relaxed mb-9 max-w-[440px]"
                 style={{ color: WARM }}>
                 From pistachio to cake batter, every scoop is made from scratch — the same way Gary Magnifico made it when he opened these doors over 44 years ago.
               </motion.p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.62, duration: 0.42, ease }}
-                className="flex flex-wrap gap-3.5 mb-10">
-                <motion.a
-                  whileHover={{ scale: 1.03, boxShadow: "0 8px 20px #FF300828" }}
-                  whileTap={{ scale: 0.97 }}
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-3.5 mb-10">
+                <motion.a whileHover={{ scale: 1.03, boxShadow: "0 6px 16px #FF300830" }} whileTap={{ scale: 0.97 }}
                   href="https://www.doordash.com/store/magnifico%27s-ice-cream-east-brunswick-26274712/29228948/"
                   target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3.5 text-[14px] font-semibold text-white"
@@ -550,8 +515,7 @@ function Home() {
                 </Link>
               </motion.div>
 
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                transition={{ delay: 0.78, duration: 0.4, ease }}>
+              <motion.div variants={fadeUp}>
                 <a href="https://www.google.com/maps/place/Magnifico%27s+Ice+Cream/@40.4329,-74.4285,17z"
                   target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-[13px] transition-opacity hover:opacity-70"
@@ -560,29 +524,25 @@ function Home() {
                   <span>4.9 &nbsp;·&nbsp; 200+ Google reviews</span>
                 </a>
               </motion.div>
-            </div>
+            </motion.div>
 
-            {/* Right — image with clip-path curtain reveal */}
-            <div className="relative">
-              <motion.div
-                className="relative overflow-hidden"
+            {/* Right — gentle slide + fade from the right */}
+            <motion.div
+              initial={{ opacity: 0, x: 24, scale: 0.98 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.45, ease, delay: 0.1 }}
+              className="relative">
+              <div className="relative overflow-hidden"
                 style={{ borderRadius: 20, aspectRatio: "3/4", maxHeight: "80vh",
-                  boxShadow: "0 4px 24px rgba(0,0,0,0.13)" }}
-                initial={{ clipPath: "inset(100% 0 0 0)" }}
-                animate={{ clipPath: "inset(0% 0 0 0)" }}
-                transition={{ delay: 0.1, duration: 0.75, ease: easeExpo }}>
+                  boxShadow: "0 4px 24px rgba(0,0,0,0.13)" }}>
                 <img src="https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=900&q=85"
                   alt="Colorful ice cream at Magnifico's" className="w-full h-full object-cover" loading="eager" />
                 <div className="absolute inset-0"
                   style={{ background: "linear-gradient(to top, rgba(0,0,0,0.14) 0%, transparent 45%)" }} />
-              </motion.div>
-              {/* Accent border — fades in after image reveals */}
-              <motion.div
-                className="absolute -z-10 -bottom-5 -right-5 w-32 h-32 border"
-                style={{ borderRadius: 12, borderColor: `${BRAND}28` }}
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                transition={{ delay: 0.82, duration: 0.5, ease }} />
-            </div>
+              </div>
+              <div className="absolute -z-10 -bottom-5 -right-5 w-32 h-32 border"
+                style={{ borderRadius: 12, borderColor: `${BRAND}28` }} />
+            </motion.div>
           </div>
         </div>
       </div>
