@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView, MotionConfig } from "framer-motion";
 import {
   BrowserRouter,
   Routes,
@@ -308,20 +308,18 @@ function Nav() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.94 }}
-              href="https://www.instagram.com/magnificosicecream/" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.instagram.com/magnificosicecream/" target="_blank" rel="noopener noreferrer"
               aria-label="Instagram"
               className="hidden sm:flex w-9 h-9 items-center justify-center border border-gray-200 hover:border-pink-300 bg-white transition-colors"
               style={{ borderRadius: LEAF }}>
               <img src="https://cdn.simpleicons.org/instagram/E4405F" className="w-[18px] h-[18px]" alt="" />
-            </motion.a>
-            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.94 }}
-              href="https://www.facebook.com/p/Magnificos-Ice-Cream-100063570281450/" target="_blank" rel="noopener noreferrer"
+            </a>
+            <a href="https://www.facebook.com/p/Magnificos-Ice-Cream-100063570281450/" target="_blank" rel="noopener noreferrer"
               aria-label="Facebook"
               className="hidden sm:flex w-9 h-9 items-center justify-center border border-gray-200 hover:border-blue-300 bg-white transition-colors"
               style={{ borderRadius: LEAFR }}>
               <img src="https://cdn.simpleicons.org/facebook/1877F2" className="w-[18px] h-[18px]" alt="" />
-            </motion.a>
+            </a>
             <motion.a whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
               href="https://www.doordash.com/store/magnifico%27s-ice-cream-east-brunswick-26274712/29228948/" target="_blank" rel="noopener noreferrer"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-white transition-opacity hover:opacity-90"
@@ -545,13 +543,11 @@ function Home() {
                   <img src="https://cdn.simpleicons.org/doordash/ffffff" className="h-4 w-auto" alt="" />
                   Order on DoorDash
                 </motion.a>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Link to="/menu"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 text-[14px] font-semibold border-2 transition-colors hover:bg-red-50"
-                    style={{ borderColor: BRAND, color: BRAND, borderRadius: LEAFR }}>
-                    View Menu
-                  </Link>
-                </motion.div>
+                <Link to="/menu"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 text-[14px] font-semibold border-2 transition-colors hover:bg-red-50 cursor-pointer"
+                  style={{ borderColor: BRAND, color: BRAND, borderRadius: LEAFR }}>
+                  View Menu
+                </Link>
               </motion.div>
 
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
@@ -1013,8 +1009,10 @@ function AppShell() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AppShell />
-    </BrowserRouter>
+    <MotionConfig reducedMotion="user">
+      <BrowserRouter>
+        <AppShell />
+      </BrowserRouter>
+    </MotionConfig>
   );
 }
